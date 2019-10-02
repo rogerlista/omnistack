@@ -15,6 +15,8 @@ const spotController = require('./controllers/spot-controller')
 // req.body = Acessar corpo da requisição (para criação, edição)
 
 routes.post('/sessions', sessionController.store)
+
+routes.get('/spots', spotController.index)
 routes.post('/spots', upload.single('thumbnail'), spotController.store)
 
 module.exports = routes
