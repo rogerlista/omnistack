@@ -8,6 +8,7 @@ const upload = multer(uploadConfig)
 const sessionController = require('./controllers/session-controller')
 const spotController = require('./controllers/spot-controller')
 const dashboardController = require('./controllers/dashboard-controller')
+const bookingController = require('./controllers/booking-controller')
 
 // GET, POST, PUT, DELETE
 
@@ -21,5 +22,7 @@ routes.get('/spots', spotController.index)
 routes.post('/spots', upload.single('thumbnail'), spotController.store)
 
 routes.get('/dashboard', dashboardController.show)
+
+routes.post('/spots/:spot_id/bookings', bookingController.store)
 
 module.exports = routes
