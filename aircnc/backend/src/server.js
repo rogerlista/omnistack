@@ -14,6 +14,11 @@ const io = socketIo(server)
 
 io.on('connection', socket => {
   console.log('Usuário conectado', socket.id)
+
+  socket.emit('hello', 'World')
+  socket.on('omni', data => {
+    console.log(data)
+  })
 })
 
 mongoose.connect('mongodb://localhost:27017/semana09', {
