@@ -12,18 +12,24 @@ const app = express()
 const server = http.Server(app)
 const io = socketIo(server)
 
-io.on('connection', socket => {
-  console.log('Usuário conectado', socket.id)
-
-  socket.emit('hello', 'World')
-  socket.on('omni', data => {
-    console.log(data)
-  })
-})
+const connectedUsers = {}
 
 mongoose.connect('mongodb://localhost:27017/semana09', {
   useNewUrlParser: true,
   useUnifiedTopology: true
+})
+
+io.on('connection', socket => {
+  const { user_id } = socket.handshake.query
+
+  connectedUsers[user_id] = socket.id
+})
+
+app.use((req, res, next) => {
+  req.io = io
+  req.connectedUsers = connectedUsers
+
+  return next()
 })
 
 app.use(cors())
